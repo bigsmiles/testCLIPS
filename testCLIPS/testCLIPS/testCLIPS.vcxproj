@@ -1,0 +1,433 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8E99251B-D518-4834-885D-2CCE92542865}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>testCLIPS</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\agenda.h" />
+    <ClInclude Include="..\..\analysis.h" />
+    <ClInclude Include="..\..\argacces.h" />
+    <ClInclude Include="..\..\bload.h" />
+    <ClInclude Include="..\..\bmathfun.h" />
+    <ClInclude Include="..\..\bsave.h" />
+    <ClInclude Include="..\..\classcom.h" />
+    <ClInclude Include="..\..\classexm.h" />
+    <ClInclude Include="..\..\classfun.h" />
+    <ClInclude Include="..\..\classinf.h" />
+    <ClInclude Include="..\..\classini.h" />
+    <ClInclude Include="..\..\classpsr.h" />
+    <ClInclude Include="..\..\clips.h" />
+    <ClInclude Include="..\..\clsltpsr.h" />
+    <ClInclude Include="..\..\cmptblty.h" />
+    <ClInclude Include="..\..\commline.h" />
+    <ClInclude Include="..\..\conscomp.h" />
+    <ClInclude Include="..\..\constant.h" />
+    <ClInclude Include="..\..\constrct.h" />
+    <ClInclude Include="..\..\constrnt.h" />
+    <ClInclude Include="..\..\crstrtgy.h" />
+    <ClInclude Include="..\..\cstrcbin.h" />
+    <ClInclude Include="..\..\cstrccmp.h" />
+    <ClInclude Include="..\..\cstrccom.h" />
+    <ClInclude Include="..\..\cstrcpsr.h" />
+    <ClInclude Include="..\..\cstrnbin.h" />
+    <ClInclude Include="..\..\cstrnchk.h" />
+    <ClInclude Include="..\..\cstrncmp.h" />
+    <ClInclude Include="..\..\cstrnops.h" />
+    <ClInclude Include="..\..\cstrnpsr.h" />
+    <ClInclude Include="..\..\cstrnutl.h" />
+    <ClInclude Include="..\..\default.h" />
+    <ClInclude Include="..\..\defins.h" />
+    <ClInclude Include="..\..\developr.h" />
+    <ClInclude Include="..\..\dffctbin.h" />
+    <ClInclude Include="..\..\dffctbsc.h" />
+    <ClInclude Include="..\..\dffctcmp.h" />
+    <ClInclude Include="..\..\dffctdef.h" />
+    <ClInclude Include="..\..\dffctpsr.h" />
+    <ClInclude Include="..\..\dffnxbin.h" />
+    <ClInclude Include="..\..\dffnxcmp.h" />
+    <ClInclude Include="..\..\dffnxexe.h" />
+    <ClInclude Include="..\..\dffnxfun.h" />
+    <ClInclude Include="..\..\dffnxpsr.h" />
+    <ClInclude Include="..\..\dfinsbin.h" />
+    <ClInclude Include="..\..\dfinscmp.h" />
+    <ClInclude Include="..\..\drive.h" />
+    <ClInclude Include="..\..\ed.h" />
+    <ClInclude Include="..\..\emathfun.h" />
+    <ClInclude Include="..\..\engine.h" />
+    <ClInclude Include="..\..\envrnmnt.h" />
+    <ClInclude Include="..\..\evaluatn.h" />
+    <ClInclude Include="..\..\expressn.h" />
+    <ClInclude Include="..\..\exprnbin.h" />
+    <ClInclude Include="..\..\exprnops.h" />
+    <ClInclude Include="..\..\exprnpsr.h" />
+    <ClInclude Include="..\..\extnfunc.h" />
+    <ClInclude Include="..\..\factbin.h" />
+    <ClInclude Include="..\..\factbld.h" />
+    <ClInclude Include="..\..\factcmp.h" />
+    <ClInclude Include="..\..\factcom.h" />
+    <ClInclude Include="..\..\factfun.h" />
+    <ClInclude Include="..\..\factgen.h" />
+    <ClInclude Include="..\..\facthsh.h" />
+    <ClInclude Include="..\..\factlhs.h" />
+    <ClInclude Include="..\..\factmch.h" />
+    <ClInclude Include="..\..\factmngr.h" />
+    <ClInclude Include="..\..\factprt.h" />
+    <ClInclude Include="..\..\factqpsr.h" />
+    <ClInclude Include="..\..\factqury.h" />
+    <ClInclude Include="..\..\factrete.h" />
+    <ClInclude Include="..\..\factrhs.h" />
+    <ClInclude Include="..\..\filecom.h" />
+    <ClInclude Include="..\..\filertr.h" />
+    <ClInclude Include="..\..\generate.h" />
+    <ClInclude Include="..\..\genrcbin.h" />
+    <ClInclude Include="..\..\genrccmp.h" />
+    <ClInclude Include="..\..\genrccom.h" />
+    <ClInclude Include="..\..\genrcexe.h" />
+    <ClInclude Include="..\..\genrcfun.h" />
+    <ClInclude Include="..\..\genrcpsr.h" />
+    <ClInclude Include="..\..\globlbin.h" />
+    <ClInclude Include="..\..\globlbsc.h" />
+    <ClInclude Include="..\..\globlcmp.h" />
+    <ClInclude Include="..\..\globlcom.h" />
+    <ClInclude Include="..\..\globldef.h" />
+    <ClInclude Include="..\..\globlpsr.h" />
+    <ClInclude Include="..\..\immthpsr.h" />
+    <ClInclude Include="..\..\incrrset.h" />
+    <ClInclude Include="..\..\inherpsr.h" />
+    <ClInclude Include="..\..\input.h" />
+    <ClInclude Include="..\..\inscom.h" />
+    <ClInclude Include="..\..\insfile.h" />
+    <ClInclude Include="..\..\insfun.h" />
+    <ClInclude Include="..\..\insmngr.h" />
+    <ClInclude Include="..\..\insmoddp.h" />
+    <ClInclude Include="..\..\insmult.h" />
+    <ClInclude Include="..\..\inspsr.h" />
+    <ClInclude Include="..\..\insquery.h" />
+    <ClInclude Include="..\..\insqypsr.h" />
+    <ClInclude Include="..\..\iofun.h" />
+    <ClInclude Include="..\..\lgcldpnd.h" />
+    <ClInclude Include="..\..\match.h" />
+    <ClInclude Include="..\..\memalloc.h" />
+    <ClInclude Include="..\..\miscfun.h" />
+    <ClInclude Include="..\..\modulbin.h" />
+    <ClInclude Include="..\..\modulbsc.h" />
+    <ClInclude Include="..\..\modulcmp.h" />
+    <ClInclude Include="..\..\moduldef.h" />
+    <ClInclude Include="..\..\modulpsr.h" />
+    <ClInclude Include="..\..\modulutl.h" />
+    <ClInclude Include="..\..\move.h" />
+    <ClInclude Include="..\..\msgcom.h" />
+    <ClInclude Include="..\..\msgfun.h" />
+    <ClInclude Include="..\..\msgpass.h" />
+    <ClInclude Include="..\..\msgpsr.h" />
+    <ClInclude Include="..\..\multifld.h" />
+    <ClInclude Include="..\..\multifun.h" />
+    <ClInclude Include="..\..\network.h" />
+    <ClInclude Include="..\..\objbin.h" />
+    <ClInclude Include="..\..\objcmp.h" />
+    <ClInclude Include="..\..\object.h" />
+    <ClInclude Include="..\..\objrtbin.h" />
+    <ClInclude Include="..\..\objrtbld.h" />
+    <ClInclude Include="..\..\objrtcmp.h" />
+    <ClInclude Include="..\..\objrtfnx.h" />
+    <ClInclude Include="..\..\objrtgen.h" />
+    <ClInclude Include="..\..\objrtmch.h" />
+    <ClInclude Include="..\..\parsefun.h" />
+    <ClInclude Include="..\..\pattern.h" />
+    <ClInclude Include="..\..\pprint.h" />
+    <ClInclude Include="..\..\prccode.h" />
+    <ClInclude Include="..\..\prcdrfun.h" />
+    <ClInclude Include="..\..\prcdrpsr.h" />
+    <ClInclude Include="..\..\prdctfun.h" />
+    <ClInclude Include="..\..\prntutil.h" />
+    <ClInclude Include="..\..\proflfun.h" />
+    <ClInclude Include="..\..\reorder.h" />
+    <ClInclude Include="..\..\reteutil.h" />
+    <ClInclude Include="..\..\retract.h" />
+    <ClInclude Include="..\..\router.h" />
+    <ClInclude Include="..\..\rulebin.h" />
+    <ClInclude Include="..\..\rulebld.h" />
+    <ClInclude Include="..\..\rulebsc.h" />
+    <ClInclude Include="..\..\rulecmp.h" />
+    <ClInclude Include="..\..\rulecom.h" />
+    <ClInclude Include="..\..\rulecstr.h" />
+    <ClInclude Include="..\..\ruledef.h" />
+    <ClInclude Include="..\..\ruledlt.h" />
+    <ClInclude Include="..\..\rulelhs.h" />
+    <ClInclude Include="..\..\rulepsr.h" />
+    <ClInclude Include="..\..\scanner.h" />
+    <ClInclude Include="..\..\setup.h" />
+    <ClInclude Include="..\..\sortfun.h" />
+    <ClInclude Include="..\..\strngfun.h" />
+    <ClInclude Include="..\..\strngrtr.h" />
+    <ClInclude Include="..\..\symblbin.h" />
+    <ClInclude Include="..\..\symblcmp.h" />
+    <ClInclude Include="..\..\symbol.h" />
+    <ClInclude Include="..\..\sysdep.h" />
+    <ClInclude Include="..\..\textpro.h" />
+    <ClInclude Include="..\..\tmpltbin.h" />
+    <ClInclude Include="..\..\tmpltbsc.h" />
+    <ClInclude Include="..\..\tmpltcmp.h" />
+    <ClInclude Include="..\..\tmpltdef.h" />
+    <ClInclude Include="..\..\tmpltfun.h" />
+    <ClInclude Include="..\..\tmpltlhs.h" />
+    <ClInclude Include="..\..\tmpltpsr.h" />
+    <ClInclude Include="..\..\tmpltrhs.h" />
+    <ClInclude Include="..\..\tmpltutl.h" />
+    <ClInclude Include="..\..\userdata.h" />
+    <ClInclude Include="..\..\usrsetup.h" />
+    <ClInclude Include="..\..\utility.h" />
+    <ClInclude Include="..\..\watch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\agenda.c" />
+    <ClCompile Include="..\..\analysis.c" />
+    <ClCompile Include="..\..\argacces.c" />
+    <ClCompile Include="..\..\bload.c" />
+    <ClCompile Include="..\..\bmathfun.c" />
+    <ClCompile Include="..\..\bsave.c" />
+    <ClCompile Include="..\..\classcom.c" />
+    <ClCompile Include="..\..\classexm.c" />
+    <ClCompile Include="..\..\classfun.c" />
+    <ClCompile Include="..\..\classinf.c" />
+    <ClCompile Include="..\..\classini.c" />
+    <ClCompile Include="..\..\classpsr.c" />
+    <ClCompile Include="..\..\clsltpsr.c" />
+    <ClCompile Include="..\..\commline.c" />
+    <ClCompile Include="..\..\conscomp.c" />
+    <ClCompile Include="..\..\constrct.c" />
+    <ClCompile Include="..\..\constrnt.c" />
+    <ClCompile Include="..\..\crstrtgy.c" />
+    <ClCompile Include="..\..\cstrcbin.c" />
+    <ClCompile Include="..\..\cstrccom.c" />
+    <ClCompile Include="..\..\cstrcpsr.c" />
+    <ClCompile Include="..\..\cstrnbin.c" />
+    <ClCompile Include="..\..\cstrnchk.c" />
+    <ClCompile Include="..\..\cstrncmp.c" />
+    <ClCompile Include="..\..\cstrnops.c" />
+    <ClCompile Include="..\..\cstrnpsr.c" />
+    <ClCompile Include="..\..\cstrnutl.c" />
+    <ClCompile Include="..\..\default.c" />
+    <ClCompile Include="..\..\defins.c" />
+    <ClCompile Include="..\..\developr.c" />
+    <ClCompile Include="..\..\dffctbin.c" />
+    <ClCompile Include="..\..\dffctbsc.c" />
+    <ClCompile Include="..\..\dffctcmp.c" />
+    <ClCompile Include="..\..\dffctdef.c" />
+    <ClCompile Include="..\..\dffctpsr.c" />
+    <ClCompile Include="..\..\dffnxbin.c" />
+    <ClCompile Include="..\..\dffnxcmp.c" />
+    <ClCompile Include="..\..\dffnxexe.c" />
+    <ClCompile Include="..\..\dffnxfun.c" />
+    <ClCompile Include="..\..\dffnxpsr.c" />
+    <ClCompile Include="..\..\dfinsbin.c" />
+    <ClCompile Include="..\..\dfinscmp.c" />
+    <ClCompile Include="..\..\drive.c" />
+    <ClCompile Include="..\..\edbasic.c" />
+    <ClCompile Include="..\..\edmain.c" />
+    <ClCompile Include="..\..\edmisc.c" />
+    <ClCompile Include="..\..\edstruct.c" />
+    <ClCompile Include="..\..\edterm.c" />
+    <ClCompile Include="..\..\emathfun.c" />
+    <ClCompile Include="..\..\engine.c" />
+    <ClCompile Include="..\..\envrnmnt.c" />
+    <ClCompile Include="..\..\evaluatn.c" />
+    <ClCompile Include="..\..\expressn.c" />
+    <ClCompile Include="..\..\exprnbin.c" />
+    <ClCompile Include="..\..\exprnops.c" />
+    <ClCompile Include="..\..\exprnpsr.c" />
+    <ClCompile Include="..\..\extnfunc.c" />
+    <ClCompile Include="..\..\factbin.c" />
+    <ClCompile Include="..\..\factbld.c" />
+    <ClCompile Include="..\..\factcmp.c" />
+    <ClCompile Include="..\..\factcom.c" />
+    <ClCompile Include="..\..\factfun.c" />
+    <ClCompile Include="..\..\factgen.c" />
+    <ClCompile Include="..\..\facthsh.c" />
+    <ClCompile Include="..\..\factlhs.c" />
+    <ClCompile Include="..\..\factmch.c" />
+    <ClCompile Include="..\..\factmngr.c" />
+    <ClCompile Include="..\..\factprt.c" />
+    <ClCompile Include="..\..\factqpsr.c" />
+    <ClCompile Include="..\..\factqury.c" />
+    <ClCompile Include="..\..\factrete.c" />
+    <ClCompile Include="..\..\factrhs.c" />
+    <ClCompile Include="..\..\filecom.c" />
+    <ClCompile Include="..\..\filertr.c" />
+    <ClCompile Include="..\..\generate.c" />
+    <ClCompile Include="..\..\genrcbin.c" />
+    <ClCompile Include="..\..\genrccmp.c" />
+    <ClCompile Include="..\..\genrccom.c" />
+    <ClCompile Include="..\..\genrcexe.c" />
+    <ClCompile Include="..\..\genrcfun.c" />
+    <ClCompile Include="..\..\genrcpsr.c" />
+    <ClCompile Include="..\..\globlbin.c" />
+    <ClCompile Include="..\..\globlbsc.c" />
+    <ClCompile Include="..\..\globlcmp.c" />
+    <ClCompile Include="..\..\globlcom.c" />
+    <ClCompile Include="..\..\globldef.c" />
+    <ClCompile Include="..\..\globlpsr.c" />
+    <ClCompile Include="..\..\immthpsr.c" />
+    <ClCompile Include="..\..\incrrset.c" />
+    <ClCompile Include="..\..\inherpsr.c" />
+    <ClCompile Include="..\..\input.c" />
+    <ClCompile Include="..\..\inscom.c" />
+    <ClCompile Include="..\..\insfile.c" />
+    <ClCompile Include="..\..\insfun.c" />
+    <ClCompile Include="..\..\insmngr.c" />
+    <ClCompile Include="..\..\insmoddp.c" />
+    <ClCompile Include="..\..\insmult.c" />
+    <ClCompile Include="..\..\inspsr.c" />
+    <ClCompile Include="..\..\insquery.c" />
+    <ClCompile Include="..\..\insqypsr.c" />
+    <ClCompile Include="..\..\iofun.c" />
+    <ClCompile Include="..\..\lgcldpnd.c" />
+    <ClCompile Include="..\..\main.c" />
+    <ClCompile Include="..\..\memalloc.c" />
+    <ClCompile Include="..\..\miscfun.c" />
+    <ClCompile Include="..\..\modulbin.c" />
+    <ClCompile Include="..\..\modulbsc.c" />
+    <ClCompile Include="..\..\modulcmp.c" />
+    <ClCompile Include="..\..\moduldef.c" />
+    <ClCompile Include="..\..\modulpsr.c" />
+    <ClCompile Include="..\..\modulutl.c" />
+    <ClCompile Include="..\..\move.c" />
+    <ClCompile Include="..\..\msgcom.c" />
+    <ClCompile Include="..\..\msgfun.c" />
+    <ClCompile Include="..\..\msgpass.c" />
+    <ClCompile Include="..\..\msgpsr.c" />
+    <ClCompile Include="..\..\multifld.c" />
+    <ClCompile Include="..\..\multifun.c" />
+    <ClCompile Include="..\..\objbin.c" />
+    <ClCompile Include="..\..\objcmp.c" />
+    <ClCompile Include="..\..\objrtbin.c" />
+    <ClCompile Include="..\..\objrtbld.c" />
+    <ClCompile Include="..\..\objrtcmp.c" />
+    <ClCompile Include="..\..\objrtfnx.c" />
+    <ClCompile Include="..\..\objrtgen.c" />
+    <ClCompile Include="..\..\objrtmch.c" />
+    <ClCompile Include="..\..\parsefun.c" />
+    <ClCompile Include="..\..\pattern.c" />
+    <ClCompile Include="..\..\pprint.c" />
+    <ClCompile Include="..\..\prccode.c" />
+    <ClCompile Include="..\..\prcdrfun.c" />
+    <ClCompile Include="..\..\prcdrpsr.c" />
+    <ClCompile Include="..\..\prdctfun.c" />
+    <ClCompile Include="..\..\prntutil.c" />
+    <ClCompile Include="..\..\proflfun.c" />
+    <ClCompile Include="..\..\reorder.c" />
+    <ClCompile Include="..\..\reteutil.c" />
+    <ClCompile Include="..\..\retract.c" />
+    <ClCompile Include="..\..\router.c" />
+    <ClCompile Include="..\..\rulebin.c" />
+    <ClCompile Include="..\..\rulebld.c" />
+    <ClCompile Include="..\..\rulebsc.c" />
+    <ClCompile Include="..\..\rulecmp.c" />
+    <ClCompile Include="..\..\rulecom.c" />
+    <ClCompile Include="..\..\rulecstr.c" />
+    <ClCompile Include="..\..\ruledef.c" />
+    <ClCompile Include="..\..\ruledlt.c" />
+    <ClCompile Include="..\..\rulelhs.c" />
+    <ClCompile Include="..\..\rulepsr.c" />
+    <ClCompile Include="..\..\scanner.c" />
+    <ClCompile Include="..\..\sortfun.c" />
+    <ClCompile Include="..\..\strngfun.c" />
+    <ClCompile Include="..\..\strngrtr.c" />
+    <ClCompile Include="..\..\symblbin.c" />
+    <ClCompile Include="..\..\symblcmp.c" />
+    <ClCompile Include="..\..\symbol.c" />
+    <ClCompile Include="..\..\sysdep.c" />
+    <ClCompile Include="..\..\textpro.c" />
+    <ClCompile Include="..\..\tmpltbin.c" />
+    <ClCompile Include="..\..\tmpltbsc.c" />
+    <ClCompile Include="..\..\tmpltcmp.c" />
+    <ClCompile Include="..\..\tmpltdef.c" />
+    <ClCompile Include="..\..\tmpltfun.c" />
+    <ClCompile Include="..\..\tmpltlhs.c" />
+    <ClCompile Include="..\..\tmpltpsr.c" />
+    <ClCompile Include="..\..\tmpltrhs.c" />
+    <ClCompile Include="..\..\tmpltutl.c" />
+    <ClCompile Include="..\..\userdata.c" />
+    <ClCompile Include="..\..\userfunctions.c" />
+    <ClCompile Include="..\..\utility.c" />
+    <ClCompile Include="..\..\watch.c" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
