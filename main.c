@@ -78,6 +78,7 @@ LARGE_INTEGER search_time1, search_time2;
 long long search_time = 0, cost_time[4] = { 0 }, run_time[4] = {0};
 long long cur_partialmatch_time[3] = {99999999999,999999999999,999999999999};
 
+int num_of_event;
 #endif
 
 char* Generat_Event_On_Fix_Rate(){
@@ -136,6 +137,7 @@ int main(
 	
 	//char rule_file_path[50] = "D:\\VS\\testCLPS\\testCLIPS\\Debug\\CLIPSRule_test.clp";
 	char rule_file_path[50] = "D:\\VS\\testCLPS\\testCLIPS\\Debug\\CLIPSRule_826.clp";
+	//char rule_file_path[50] = "D:\\VS\\testCLPS\\testCLIPS\\Debug\\CLIPSRule_1025.clp";
 	//char rule_file_path[50] = "D:\\VS\\testCLPS\\testCLIPS\\Debug\\CLIPSRule_723.clp";
 
 	
@@ -163,14 +165,14 @@ int main(
 	
 #if THREAD
 	//add by xuchao,start this execute thread
-	/**
+	/**/
 	hThread = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env1, 0, NULL);
 	SetThreadAffinityMask(hThread, 1 << 1);//线程指定在某个cpu运行
 	hThread1 = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env2, 0, NULL);
 	SetThreadAffinityMask(hThread1, 1 << 2);//线程指定在某个cpu
-	**/
-	//hThread2 = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env3, 0, NULL);
-	//SetThreadAffinityMask(hThread2, 1 << 3);//线程指定在某个cpu运行
+	/**/
+	hThread2 = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env3, 0, NULL);
+	SetThreadAffinityMask(hThread2, 1 << 3);//线程指定在某个cpu运行
 #endif
 
 #if AUTOTEST
@@ -180,7 +182,7 @@ int main(
 	srand((unsigned int)time(0));
 	//EnvAssertString(theEnv, "(student (id 100)(name \"tom\"))");
 	
-	//char fact_file_path[50] = "D:\\VS\\stdCLIPS\\Debug\\CLIPSFact_test.txt";
+	//char fact_file_path[50] = "D:\\VS\\stdCLIPS\\Debug\\CLIPSFact_test.txt"; 
 	char fact_file_path[50] = "D:\\VS\\stdCLIPS\\Debug\\CLIPSFact_105.txt";
 	//char fact_file_path[50] = "D:\\VS\\stdCLIPS\\Debug\\CLIPSFact_723.txt";
 
@@ -205,6 +207,9 @@ int main(
 	printf("time: 0  %lld\n", start.QuadPart);
 	//printf("time: 0  %lld\n", time(NULL));
 	long long line_count = 1;
+	num_of_event = 20000;
+	if (argc > 1) num_of_event = atoi(argv[1]);
+	
 	while (fgets(tmpBuffer, 100, pFile))
 	//while (line_count--)
 	{
@@ -233,7 +238,7 @@ int main(
 		
 #endif
 		//printf("%s\n", tmpBuffer); break;
-		if (line_count++ > 25000)break;
+		if (line_count++ > num_of_event)break;
 		EnvAssertString(theEnv, tmpBuffer);
 		
 		
@@ -241,14 +246,14 @@ int main(
 	QueryPerformanceCounter(&end);
 	printf("time over %lld ,total: %lld,line_count %lld\n", end.QuadPart,(end.QuadPart - start.QuadPart) / freq.QuadPart,line_count);
 	
-	/**/
+	/**
 	hThread = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env1, 0, NULL);
 	SetThreadAffinityMask(hThread, 1 << 1);//线程指定在某个cpu运行
 	hThread1 = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env2, 0, NULL);
 	SetThreadAffinityMask(hThread1, 1 << 2);//线程指定在某个cpu运行
-	/**/
-	hThread2 = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env3, 0, NULL);
-	SetThreadAffinityMask(hThread2, 1 << 3);//线程指定在某个cpu运行
+	**/
+	//hThread2 = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env3, 0, NULL);
+	//SetThreadAffinityMask(hThread2, 1 << 3);//线程指定在某个cpu运行
 	Sleep(85000);
 	//CommandLoop(theEnv);
 #if !THREAD 
@@ -257,11 +262,12 @@ int main(
 	QueryPerformanceCounter(&finish);
 	//printf("input time: %lf\n", 1.0 * (end.QuadPart - start.QuadPart) / freq.QuadPart);
 	
-	printf("time:%d\n", (finish.QuadPart - start.QuadPart) / freq.QuadPart);
+	//printf("time:%d\n", (finish.QuadPart - start.QuadPart) / freq.QuadPart);
 	
-	for (int i = 0; i < 4; i++){
-		printf("total:%d %d\n", totalAddActiveNode, totalGetActiveNode[i]);
-		printf("search_time: %lld %lf %lf\n", search_time, cost_time[i] * 1.0 / freq.QuadPart, run_time[i] * 1.0 / freq.QuadPart);
+	//for (int i = 0; i < 4; i++)
+	{
+		//printf("total:%d %d\n", totalAddActiveNode, totalGetActiveNode[i]);
+		printf("search_time: %lld %lf %lf\n", search_time, cost_time[0] * 1.0 / freq.QuadPart, run_time[0] * 1.0 / freq.QuadPart);
 	}
 	
 	//CommandLoop(theEnv);

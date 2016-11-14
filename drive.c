@@ -78,7 +78,7 @@
    extern long long cur_partialmatch_time[3];
    extern FILE* print_file[3];
 #if SLIDING_WINDOW
-#define WINDOW_SIZE (2760000*27)
+#define WINDOW_SIZE (2760000*5)
 #define FREEPM 1
 #endif
 /************************************************/

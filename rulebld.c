@@ -752,6 +752,9 @@ static struct joinNode *CreateNewJoin(
    newJoin->memoryAdds = 0;
    newJoin->memoryDeletes = 0;
    newJoin->memoryCompares = 0;
+#if OPTIMIZE
+   newJoin->fromBottomHeight = 100;
+#endif
 
    /*==============================================*/
    /* Install the expressions used to determine    */

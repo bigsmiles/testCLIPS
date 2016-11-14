@@ -368,7 +368,7 @@ globle void AddList(struct JoinNodeList* oneNode){
 		p = p->next;
 	}
 	*/
-	while (p != NULL && p->join->depth > oneNode->join->depth){
+	while (p != NULL && p->join->fromBottomHeight < oneNode->join->fromBottomHeight){
 		p = p->next;
 	}
 	

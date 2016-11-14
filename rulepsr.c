@@ -417,6 +417,15 @@ static struct defrule *ProcessRuleLHS(
       /*===============================================================*/
 
       lastJoin = ConstructJoins(theEnv,logicalJoin,tempNode,1);
+#if OPTIMIZE
+	  int fromBottomHeigh = 0;
+	  struct joinNode* pNode = lastJoin;
+	  while (pNode->firstJoin != 1){
+		  pNode->fromBottomHeight = min(pNode->fromBottomHeight,fromBottomHeigh++);
+		  pNode = pNode->lastLevel;
+	  }
+	  pNode->fromBottomHeight = min(pNode->fromBottomHeight,fromBottomHeigh);
+#endif
 	  
       /*===================================================================*/
       /* Determine the rule's complexity for use with conflict resolution. */

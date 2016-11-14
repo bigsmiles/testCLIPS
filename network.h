@@ -130,6 +130,7 @@ struct joinNode
    struct activeJoinNode *activeJoinNodeListTail;
    long long numOfActiveNode;
    int threadTag;
+   int fromBottomHeight;
 #if CSECTION
    //struct JoinNodeList* attachNode;
    CRITICAL_SECTION nodeSection;

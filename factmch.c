@@ -553,8 +553,8 @@ static void ProcessFactAlphaMatch(
 #if !THREAD
   //remove by xuchao
   theFact->alphaMatch = NULL;
-  printf("create %s\n",theFact->whichDeftemplate->header.name->contents);
-  theMatch = CreateAlphaMatch(theEnv,theFact,theMarks,(struct patternNodeHeader *) &thePattern->header,hashValue);
+  //printf("create %s\n",theFact->whichDeftemplate->header.name->contents);
+  theMatch = CreateAlphaMatch(GetEnvironmentByIndex(1),theFact,theMarks,(struct patternNodeHeader *) &thePattern->header,hashValue);
   theMatch->owner = &thePattern->header;
   theFact->alphaMatch = theMatch;
 #endif
