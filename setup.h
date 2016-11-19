@@ -539,6 +539,7 @@
 #define SLIDING_WINDOW 1
 #define DROOLS_WINDOW 1
 #define OPTIMIZE 1
+#define TEST_PERFORMENCE 1
 #include <windows.h>
 /*************************************************/
 /* Any user defined global setup information can */

@@ -25,7 +25,7 @@
 //add by xuchao
 #include "envrnmnt.h"
 
-#define ARRAY 0
+#define ARRAY 0   //ARRAY这部分是原来想随机选择被激活的节点，所以使用了数组。。现在可以去掉了
 #define SALIENCE 0
 #define SCHEDULE 0
 #if THREAD
@@ -55,6 +55,8 @@ void AddList(struct JoinNodeList*);
 
 int EstimateJoinNodeToEndTime(struct joinNode *curJoinNode);
 int totalGetActiveNode[4] = { 0 }, totalAddActiveNode = 0;
+
+//原来的move函数，好像可以删掉了
 globle void MoveOnJoinNetwork(void*theEnv)
 {
 	struct activeJoinNode *currentActiveNode;
@@ -116,6 +118,7 @@ globle void MoveOnJoinNetwork(void*theEnv)
 }
 
 //min Time from curNode to endNode
+//计算优先级的函数，计算当前beta节点到出口的时间，好像现在用处不大
 globle int EstimateJoinNodeToEndTime(struct joinNode *curJoinNode){
 
 	
@@ -139,6 +142,9 @@ globle int EstimateJoinNodeToEndTime(struct joinNode *curJoinNode){
 	//minTime = 0;
 	return numberOfTest + minTime;
 }
+/*
+调度的主要函数，从被激活的beta节点队列中，选择前面可以使用的(没有被其他线程处理)节点
+*/
 globle struct activeJoinNode* GetBestOneActiveNode(void *theEnv, int threadID)
 {
 	struct activeJoinNode *rtnNode = NULL;
@@ -146,10 +152,12 @@ globle struct activeJoinNode* GetBestOneActiveNode(void *theEnv, int threadID)
 	struct JoinNodeList *oneListNode = NULL;
 	struct JoinNodeList *curListNode = NULL;
 	/**/
+#if TEST_PERFORMENCE
 	LARGE_INTEGER large_time_start;
 	QueryPerformanceCounter(&large_time_start);
 	
 	long long start = (long long)large_time_start.QuadPart;
+#endif
 	/**/
 #if THREAD
 
@@ -351,6 +359,9 @@ globle struct activeJoinNode* GetBestOneActiveNode(void *theEnv, int threadID)
 #endif
 	return rtnNode;
 }
+/*
+添加被激活的beta节点时。保持一定优先级的“顺序”
+*/
 globle void AddList(struct JoinNodeList* oneNode){
 #if THREAD
 	//EnterCriticalSection(&g_cs);
@@ -360,14 +371,16 @@ globle void AddList(struct JoinNodeList* oneNode){
 	
 #if !SALIENCE
 	/*
+	//优先级越大越在前面
 	while (p != NULL && p->join->nodeMaxSalience > oneNode->join->nodeMaxSalience){
 		p = p->next;
 	}
-	
+	//优先级越大并且深度(depth)越大越在前面
 	while(p != NULL && p->join->nodeMaxSalience == oneNode->join->nodeMaxSalience && p->join->depth >= oneNode->join->depth){
 		p = p->next;
 	}
 	*/
+	//出口越近越在前面
 	while (p != NULL && p->join->fromBottomHeight < oneNode->join->fromBottomHeight){
 		p = p->next;
 	}
@@ -391,6 +404,9 @@ globle void AddList(struct JoinNodeList* oneNode){
 #endif
 	return;
 }
+/*
+由于alpha中fact的到来，激活的beta，调用这个函数
+*/
 globle void AddNodeFromAlpha(
 	void* theEnv,
 	struct joinNode* curNode, //listOfJoins
@@ -533,6 +549,9 @@ globle void AddNodeFromAlpha(
 
 #endif
 }
+/*
+beta线程激活beta节点，调用这个函数
+*/
 globle void AddOneActiveNode(
 	void* theEnv, 
 	struct partialMatch* partialMatch,
@@ -687,6 +706,10 @@ globle void AddOneActiveNode(
 	/**/
 	return;
 }
+/*
+线程在这里选择出“最优的”beta节点，然后从beta节点的队列里选出一个实例，然后调用传递的函数
+
+*/
 unsigned int __stdcall MoveOnJoinNetworkThread(void *pM)
 {
 #if THREAD

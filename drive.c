@@ -78,7 +78,8 @@
    extern long long cur_partialmatch_time[3];
    extern FILE* print_file[3];
 #if SLIDING_WINDOW
-#define WINDOW_SIZE (2760000*5)
+#define WINDOW_SIZE (2760000*10)
+//#define WINDOW_SIZE (2)
 #define FREEPM 1
 #endif
 /************************************************/
@@ -192,9 +193,12 @@ globle void NetworkAssertRight(
    LARGE_INTEGER cur_time;
    QueryPerformanceCounter(&cur_time);
    long long cur_system_time = (long long)cur_time.QuadPart;
+   
+   /**/
    if (cur_system_time - rhsBinds->l_timeStamp > WINDOW_SIZE){
 	   lhsBinds = NULL;
    }
+   /**/
 
    long long fix_l_time = rhsBinds->r_timeStamp - WINDOW_SIZE;
    long long fix_r_time = rhsBinds->l_timeStamp + WINDOW_SIZE;
@@ -544,9 +548,17 @@ globle void NetworkAssertLeft(
    LARGE_INTEGER cur_time;
    QueryPerformanceCounter(&cur_time);
    long long cur_system_time = (long long)cur_time.QuadPart;
+   /**/
    if (cur_system_time - lhsBinds->l_timeStamp > WINDOW_SIZE){
 	   rhsBinds = NULL;
    }
+   /**/
+   /**/
+   long long l_time = lhsBinds->l_timeStamp;
+   long long r_time = lhsBinds->r_timeStamp;
+   long long fix_l_time = r_time - WINDOW_SIZE;
+   long long fix_r_time = l_time + WINDOW_SIZE;
+   /**/
    long long factTime;
 #endif
 
@@ -593,7 +605,7 @@ globle void NetworkAssertLeft(
 #if DROOLS_WINDOW
 		   if(cur_system_time - factTime > WINDOW_SIZE)
 #else if
-		   if (factTime < fix_l_time || factTime > fix_r_time)
+		   if ((factTime < fix_l_time || factTime > fix_r_time))
 #endif
 		   {
 			   

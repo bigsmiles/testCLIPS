@@ -136,7 +136,8 @@ int main(
 #endif
 	
 	//char rule_file_path[50] = "D:\\VS\\testCLPS\\testCLIPS\\Debug\\CLIPSRule_test.clp";
-	char rule_file_path[50] = "D:\\VS\\testCLPS\\testCLIPS\\Debug\\CLIPSRule_826.clp";
+	char rule_file_path[50] = "D:\\VS\\testCLPS\\testCLIPS\\Debug\\CLIPSRule_824.clp";
+	//char rule_file_path[50] = "D:\\VS\\testCLPS\\testCLIPS\\Debug\\CLIPSRule_826.clp";
 	//char rule_file_path[50] = "D:\\VS\\testCLPS\\testCLIPS\\Debug\\CLIPSRule_1025.clp";
 	//char rule_file_path[50] = "D:\\VS\\testCLPS\\testCLIPS\\Debug\\CLIPSRule_723.clp";
 
@@ -176,15 +177,15 @@ int main(
 #endif
 
 #if AUTOTEST
-	int total =150;
+	int total =150; 
 	char fields[4][8] = { "data", "bar", "foo", "room" };
 	char names[10][8] = { "tom", "tim", "jack", "mike", "sam", "mary", "lily", "bob", "alice", "lucy" };
 	srand((unsigned int)time(0));
 	//EnvAssertString(theEnv, "(student (id 100)(name \"tom\"))");
 	
 	//char fact_file_path[50] = "D:\\VS\\stdCLIPS\\Debug\\CLIPSFact_test.txt"; 
-	char fact_file_path[50] = "D:\\VS\\stdCLIPS\\Debug\\CLIPSFact_105.txt";
-	//char fact_file_path[50] = "D:\\VS\\stdCLIPS\\Debug\\CLIPSFact_723.txt";
+	//char fact_file_path[50] = "D:\\VS\\stdCLIPS\\Debug\\CLIPSFact_105.txt";
+	char fact_file_path[50] = "D:\\VS\\stdCLIPS\\Debug\\CLIPSFact_723.txt";
 
 	
 	FILE *pFile = fopen(fact_file_path, "r");
@@ -244,7 +245,7 @@ int main(
 		
 	} 
 	QueryPerformanceCounter(&end);
-	printf("time over %lld ,total: %lld,line_count %lld\n", end.QuadPart,(end.QuadPart - start.QuadPart) / freq.QuadPart,line_count);
+	//printf("time over %lld ,total: %lld,line_count %lld\n", end.QuadPart,(end.QuadPart - start.QuadPart) / freq.QuadPart,line_count);
 	
 	/**
 	hThread = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env1, 0, NULL);
@@ -254,21 +255,14 @@ int main(
 	**/
 	//hThread2 = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env3, 0, NULL);
 	//SetThreadAffinityMask(hThread2, 1 << 3);//线程指定在某个cpu运行
-	Sleep(85000);
+	Sleep(100000);
 	//CommandLoop(theEnv);
 #if !THREAD 
 	CommandLoop(theEnv);
 #endif
 	QueryPerformanceCounter(&finish);
-	//printf("input time: %lf\n", 1.0 * (end.QuadPart - start.QuadPart) / freq.QuadPart);
 	
-	//printf("time:%d\n", (finish.QuadPart - start.QuadPart) / freq.QuadPart);
-	
-	//for (int i = 0; i < 4; i++)
-	{
-		//printf("total:%d %d\n", totalAddActiveNode, totalGetActiveNode[i]);
-		printf("search_time: %lld %lf %lf\n", search_time, cost_time[0] * 1.0 / freq.QuadPart, run_time[0] * 1.0 / freq.QuadPart);
-	}
+	printf("search_time: %lld %lf %lf\n", search_time, cost_time[0] * 1.0 / freq.QuadPart, run_time[0] * 1.0 / freq.QuadPart);
 	
 	//CommandLoop(theEnv);
 #else 

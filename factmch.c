@@ -551,9 +551,7 @@ static void ProcessFactAlphaMatch(
   /*===========================================*/
 
 #if !THREAD
-  //remove by xuchao
-  theFact->alphaMatch = NULL;
-  //printf("create %s\n",theFact->whichDeftemplate->header.name->contents);
+  
   theMatch = CreateAlphaMatch(GetEnvironmentByIndex(1),theFact,theMarks,(struct patternNodeHeader *) &thePattern->header,hashValue);
   theMatch->owner = &thePattern->header;
   theFact->alphaMatch = theMatch;
@@ -577,11 +575,11 @@ static void ProcessFactAlphaMatch(
   //add by xuchao
   //EnterCriticalSection(&g_move); //remove ok?
 #if SLIDING_WINDOW
-#if DROOLS_WINDOW
+#if DROOLS_WINDOW  // 把系统时间赋值给fact时间戳
   LARGE_INTEGER cur_time;
   QueryPerformanceCounter(&cur_time);
   theFact->timestamp = cur_time.QuadPart;
-#else if
+#else if           //从fact字符中解析出时间戳
 
   DATA_OBJECT  arg;
   EnvGetFactSlot(theEnv, theFact, "timestamp", &arg);
@@ -599,10 +597,15 @@ static void ProcessFactAlphaMatch(
   /* move to assert(fact)*/
   //EnterCriticalSection(&g_fact_join);
 
+  /*
+  一个alpha节点后继节点可能是多个beta节点，factNotOnNodeMask表示该fact还
+  没有添加到对应的beta节点，第几位为0就表示fact还没添加到第几个beta节点，
+  初试值为0，表示都没添加到beta节点。
+  */
 #if OPTIMIZE
   theFact->factNotOnNodeMask = 0;
   theFact->alphaMatch = NULL;
-#else
+#else  //原来的方法是使用了链表，后来改进为位运算
   struct factNotOnJoinNode **p = &theFact->factNotOnNode;
   struct factNotOnJoinNode *tail = NULL;
   //printf("%d %d\n", *p, theFact->factNotOnNode);
@@ -647,6 +650,7 @@ static void ProcessFactAlphaMatch(
 	  tail = one;
   }
 #endif
+  //好像已经没用了？
   //LeaveCriticalSection(&g_fact_join);
   //move to assert(fact)
   /*struct factNotOnJoinNode **p = &theFact->factNotOnNode;
@@ -683,16 +687,20 @@ static void ProcessFactAlphaMatch(
 	  //SlowDown();
 #endif
 	  /**/
+#if TEST_PERFORMENCE
 	  LARGE_INTEGER large_time1;
 	  QueryPerformanceCounter(&large_time1);
 	  long long time1 = (long long)large_time1.QuadPart;
+#endif
 	  /**/
 	  AddNodeFromAlpha(theEnv,listOfJoins,hashValue,theMarks,theFact,(struct patternNodeHeader *)&thePattern->header);
 	  /**/
+#if TEST_PERFORMENCE
 	  LARGE_INTEGER large_time2;
 	  QueryPerformanceCounter(&large_time2);
 	  long long time2 = (long long)large_time2.QuadPart;
 	  cost_time[0] += (time2 - time1);
+#endif
 	  /**/
 #endif
 	 }
