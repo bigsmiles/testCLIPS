@@ -50,7 +50,6 @@
 #include "move.h"
 #include "input.h"
 
-#define DEBUGTIME 0
 
 int main(int, char *[]);
 void UserFunctions(void);
@@ -64,7 +63,7 @@ void EnvUserFunctions(void *);
 
 
 #if THREAD 
-//void *betaEnv;
+
 CRITICAL_SECTION g_cs;
 //CRITICAL_SECTION g_debug; //解决同步问题?
 CRITICAL_SECTION g_csDebug, g_runDebug, g_move,g_fact_join;//g_csDebug1, g_csDebug2,
@@ -81,17 +80,6 @@ long long cur_partialmatch_time[3] = {99999999999,999999999999,999999999999};
 int num_of_event;
 #endif
 
-char* Generat_Event_On_Fix_Rate(){
-	int count = 10000;
-	while (count--){
-		char* res = malloc(100 * sizeof(char));
-		int id = rand() % 200;
-		LARGE_INTEGER time_stamp;
-		QueryPerformanceCounter(&time_stamp);
-		sprintf(res, "(stock%d (price%d %d)(timestamp %lld))", id,id,rand()%200,time_stamp.QuadPart);
-	}
-	return NULL;
-}
 
 
 int main(
@@ -99,6 +87,7 @@ int main(
 	char *argv[])
 {
 	void *theEnv;
+
 #if THREAD
 	void *betaEnv;
 	void *thirdEnv;
@@ -136,22 +125,18 @@ int main(
 #endif
 	
 	//char rule_file_path[50] = "D:\\VS\\testCLPS\\testCLIPS\\Debug\\CLIPSRule_test.clp";
-	char rule_file_path[50] = "D:\\VS\\testCLPS\\testCLIPS\\Debug\\CLIPSRule_824.clp";
-	//char rule_file_path[50] = "D:\\VS\\testCLPS\\testCLIPS\\Debug\\CLIPSRule_826.clp";
+	//char rule_file_path[50] = "D:\\VS\\testCLPS\\testCLIPS\\Debug\\CLIPSRule_824.clp";
+	char rule_file_path[50] = "D:\\VS\\testCLPS\\testCLIPS\\Debug\\CLIPSRule_826.clp";
 	//char rule_file_path[50] = "D:\\VS\\testCLPS\\testCLIPS\\Debug\\CLIPSRule_1025.clp";
 	//char rule_file_path[50] = "D:\\VS\\testCLPS\\testCLIPS\\Debug\\CLIPSRule_723.clp";
 
-	
 	
 	EnvLoad(theEnv, rule_file_path);
 
 #if THREAD || REALMTHREAD
 
-	
 	EnvLoad(betaEnv, rule_file_path);
-	
 	EnvLoad(thirdEnv, rule_file_path);
-	
 	EnvLoad(fourEnv, rule_file_path);
 
 	struct ThreadNode *env1 = (struct ThreadNode*)malloc(sizeof(struct ThreadNode));
@@ -162,99 +147,79 @@ int main(
 	env3->theEnv = fourEnv; env3->threadTag = 3;
 	
 #endif	
-	
+	//第一个参数是event or fact的个数，第二个参数是并行或串行parallel_serial，并行为1，串行为0
+	num_of_event = 20000;
+	int parallel_serial = 1;
+	if (argc > 1) num_of_event = atoi(argv[1]);
+	if (argc > 2) parallel_serial = atoi(argv[2]);
 	
 #if THREAD
 	//add by xuchao,start this execute thread
 	/**/
-	hThread = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env1, 0, NULL);
-	SetThreadAffinityMask(hThread, 1 << 1);//线程指定在某个cpu运行
-	hThread1 = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env2, 0, NULL);
-	SetThreadAffinityMask(hThread1, 1 << 2);//线程指定在某个cpu
+	if (parallel_serial == 1)
+	{
+		hThread = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env1, 0, NULL);
+		SetThreadAffinityMask(hThread, 1 << 1);//线程指定在某个cpu运行
+		hThread1 = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env2, 0, NULL);
+		SetThreadAffinityMask(hThread1, 1 << 2);//线程指定在某个cpu
+
+		hThread2 = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env3, 0, NULL);
+		SetThreadAffinityMask(hThread2, 1 << 3);//线程指定在某个cpu运行
+	}
 	/**/
-	hThread2 = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env3, 0, NULL);
-	SetThreadAffinityMask(hThread2, 1 << 3);//线程指定在某个cpu运行
 #endif
 
 #if AUTOTEST
-	int total =150; 
-	char fields[4][8] = { "data", "bar", "foo", "room" };
-	char names[10][8] = { "tom", "tim", "jack", "mike", "sam", "mary", "lily", "bob", "alice", "lucy" };
-	srand((unsigned int)time(0));
-	//EnvAssertString(theEnv, "(student (id 100)(name \"tom\"))");
 	
 	//char fact_file_path[50] = "D:\\VS\\stdCLIPS\\Debug\\CLIPSFact_test.txt"; 
-	//char fact_file_path[50] = "D:\\VS\\stdCLIPS\\Debug\\CLIPSFact_105.txt";
-	char fact_file_path[50] = "D:\\VS\\stdCLIPS\\Debug\\CLIPSFact_723.txt";
-
+	char fact_file_path[50] = "D:\\VS\\stdCLIPS\\Debug\\CLIPSFact_105.txt";
+	//char fact_file_path[50] = "D:\\VS\\stdCLIPS\\Debug\\CLIPSFact_723.txt";
 	
 	FILE *pFile = fopen(fact_file_path, "r");
 	print_file[1] = fopen(print_file_path[1], "w");
 	print_file[0] = fopen(print_file_path[2], "w");
 	
-	if (pFile == NULL)
+	if (pFile == NULL){
 		printf("file error!\n");
-	char tmpBuffer[200];
-	total = 0;
-	int tmpBufferLenth = 0;
-	char timeStr[100];
-	__int64 counterOfTimer;
-	LARGE_INTEGER large_time,start,end,finish,freq;
-	int cnt = 0;
-	QueryPerformanceCounter(&large_time);
-	QueryPerformanceFrequency(&freq);
-	//DWORD start = GetTickCount();
-	QueryPerformanceCounter(&start);
-	printf("time: 0  %lld\n", start.QuadPart);
-	//printf("time: 0  %lld\n", time(NULL));
-	long long line_count = 1;
-	num_of_event = 20000;
-	if (argc > 1) num_of_event = atoi(argv[1]);
+	}
 	
+	
+	LARGE_INTEGER start,end,finish,freq;
+	int cnt = 0;
+	
+	QueryPerformanceFrequency(&freq);
+	QueryPerformanceCounter(&start);
+	printf("system_start_time: 0  %lld\n", start.QuadPart);
+
+	
+	long long line_count = 1;
+	char tmpBuffer[200];
 	while (fgets(tmpBuffer, 100, pFile))
 	//while (line_count--)
 	{
 		
-#if DEBUGTIME
-		tmpBufferLenth = strlen(tmpBuffer) - 1;
-		//Sleep(rand() % 50);
-		if (tmpBuffer[tmpBufferLenth - 1] == ')' && tmpBuffer[tmpBufferLenth - 2] != ')'){
-			timeStr[0] = '\0';
-		}
-		else if (tmpBuffer[tmpBufferLenth - 1] == ')' && tmpBuffer[tmpBufferLenth - 2] == ')'){
-			tmpBuffer[tmpBufferLenth - 1] = '\0';
-			sprintf(timeStr, "(time %I64d))", large_time.QuadPart);
-		}
-		strcat(tmpBuffer, timeStr);
-#else if
-		/*
-		QueryPerformanceCounter(&large_time);
-		tmpBuffer[strlen(tmpBuffer) - 1] = '\0';
-		sprintf(timeStr, "(timestamp %lld))",large_time.QuadPart);
-		strcat(tmpBuffer, timeStr);
-		*/
-		//QueryPerformanceCounter(&large_time);
-		//int id = rand() % 200;
-		//sprintf(tmpBuffer,"(stock%d(price%d %d)(timestamp %lld))",id,id,rand()%100,large_time.QuadPart);
-		
-#endif
+
 		//printf("%s\n", tmpBuffer); break;
 		if (line_count++ > num_of_event)break;
+		//if(line_count % 5 == 0)Sleep(1);
 		EnvAssertString(theEnv, tmpBuffer);
 		
 		
 	} 
 	QueryPerformanceCounter(&end);
-	//printf("time over %lld ,total: %lld,line_count %lld\n", end.QuadPart,(end.QuadPart - start.QuadPart) / freq.QuadPart,line_count);
+	printf("input_time_over %lld ,total: %lld,line_count %lld\n", end.QuadPart,(end.QuadPart - start.QuadPart) / freq.QuadPart,line_count);
 	
-	/**
-	hThread = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env1, 0, NULL);
-	SetThreadAffinityMask(hThread, 1 << 1);//线程指定在某个cpu运行
-	hThread1 = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env2, 0, NULL);
-	SetThreadAffinityMask(hThread1, 1 << 2);//线程指定在某个cpu运行
-	**/
-	//hThread2 = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env3, 0, NULL);
-	//SetThreadAffinityMask(hThread2, 1 << 3);//线程指定在某个cpu运行
+	if (parallel_serial == 0)
+	{
+
+		hThread = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env1, 0, NULL);
+		SetThreadAffinityMask(hThread, 1 << 1);//线程指定在某个cpu运行
+		hThread1 = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env2, 0, NULL);
+		SetThreadAffinityMask(hThread1, 1 << 2);//线程指定在某个cpu运行
+
+		hThread2 = (HANDLE)_beginthreadex(NULL, 0, MoveOnJoinNetworkThread, env3, 0, NULL);
+		SetThreadAffinityMask(hThread2, 1 << 3);//线程指定在某个cpu运行
+	}
 	Sleep(100000);
 	//CommandLoop(theEnv);
 #if !THREAD 

@@ -78,8 +78,8 @@
    extern long long cur_partialmatch_time[3];
    extern FILE* print_file[3];
 #if SLIDING_WINDOW
-#define WINDOW_SIZE (2760000*10)
-//#define WINDOW_SIZE (2)
+//#define WINDOW_SIZE (2760000*10)
+#define WINDOW_SIZE (5)
 #define FREEPM 1
 #endif
 /************************************************/
@@ -193,6 +193,7 @@ globle void NetworkAssertRight(
    LARGE_INTEGER cur_time;
    QueryPerformanceCounter(&cur_time);
    long long cur_system_time = (long long)cur_time.QuadPart;
+   cur_system_time = rhsBinds->l_timeStamp;
    
    /**/
    if (cur_system_time - rhsBinds->l_timeStamp > WINDOW_SIZE){
@@ -212,28 +213,11 @@ globle void NetworkAssertRight(
      {
       nextBind = lhsBinds->nextInMemory;
 #if SLIDING_WINDOW
-	 
-	  //QueryPerformanceCounter(&cur_time);
-	  //cur_system_time = (long long)cur_time.QuadPart;
 
 	  lhsBinds_l_time = lhsBinds->l_timeStamp;
 	  lhsBinds_r_time = lhsBinds->r_timeStamp;
 
-	  /*
-	  long long fix_l_time = rhsBinds->r_timeStamp - WINDOW_SIZE;
-	  long long fix_r_time = rhsBinds->l_timeStamp + WINDOW_SIZE;
-	  long long rhsBinds_l_time = rhsBinds->l_timeStamp;
-	  long long rhsBinds_r_time = rhsBinds->r_timeStamp;
-	  */
-	  //printf("lhs: %lld %lld\n", lhsBinds_l_time, lhsBinds_r_time);
-	  /*
-	  if (lhsBinds_l_time == 0){
-		  printf("time = 0\n");
-	  }
-	  */
-	  //printf("rhs: %lld %lld\n", rhsBinds_l_time, rhsBinds_r_time);
-	  //printf("%lld and %lld \n", llabs(lhsBinds_r_time - rhsBinds_l_time), llabs(lhsBinds_l_time - rhsBinds_r_time));
-	  //超出窗口的lhsBinds,只有超出窗口且lhsBinds在左面，就是小于rhsBinds一个窗口的才被free
+	  
 #if DROOLS_WINDOW
 	  if (cur_system_time - lhsBinds_l_time > WINDOW_SIZE)
 #else if
@@ -271,8 +255,6 @@ globle void NetworkAssertRight(
 			  }
 		  }
 		  EnterCriticalSection(&(MemoryData(tmp->whichEnv)->memoSection));
-		  //rtn_struct(tmp->whichEnv, partialMatch, tmp);
-		  //printf("free inright\n");
 		  rtn_var_struct(tmp->whichEnv, partialMatch, (int) sizeof(struct genericMatch*) * (tmp->bcount - 1), tmp);
 		  LeaveCriticalSection(&(MemoryData(tmp->whichEnv)->memoSection));
 #endif
@@ -548,10 +530,12 @@ globle void NetworkAssertLeft(
    LARGE_INTEGER cur_time;
    QueryPerformanceCounter(&cur_time);
    long long cur_system_time = (long long)cur_time.QuadPart;
+   cur_system_time = lhsBinds->l_timeStamp;
    /**/
    if (cur_system_time - lhsBinds->l_timeStamp > WINDOW_SIZE){
 	   rhsBinds = NULL;
    }
+  
    /**/
    /**/
    long long l_time = lhsBinds->l_timeStamp;
@@ -572,7 +556,7 @@ globle void NetworkAssertLeft(
 		   struct fact *curFact = (struct fact*)(rhsBinds->binds[0].gm.theMatch->matchingItem);
 		   int flag = 0;
 #if OPTIMIZE
-		   if((1 << join->depth) & curFact->factNotOnNodeMask == 0){
+		   if(((1 << join->depth) & curFact->factNotOnNodeMask) == 0){
 			   flag = 1;
 		   }
 #else
@@ -595,12 +579,7 @@ globle void NetworkAssertLeft(
 		   //cur_system_time = (long long)cur_time.QuadPart;
 
 		   factTime = curFact->timestamp;
-		   /*
-		   long long l_time = lhsBinds->l_timeStamp;
-		   long long r_time = lhsBinds->r_timeStamp;
-		   long long fix_l_time = r_time - WINDOW_SIZE;
-		   long long fix_r_time = l_time + WINDOW_SIZE;
-		   */
+		  
 		   //if (llabs(factTime - l_time) > WINDOW_SIZE || llabs(r_time - factTime) > WINDOW_SIZE)
 #if DROOLS_WINDOW
 		   if(cur_system_time - factTime > WINDOW_SIZE)
@@ -697,8 +676,6 @@ globle void NetworkAssertLeft(
 #endif // DROOLS_WINDOW
 			   /**/
 			   // else free tmp to memory pool
-			   //printf("going to free\n");
-			   //printf("may_be_min_time:%lld\n", may_be_min_time);
 			   if (pre != NULL){
 				   /**/
 				   pre->nextInMemory = rhsBinds;
@@ -724,7 +701,6 @@ globle void NetworkAssertLeft(
 					   
 			   }
 			   EnterCriticalSection(&(MemoryData(tmp->whichEnv)->memoSection));
-			   //printf("free memory %d %lld %lld %lld\n",join->depth,x_alpha,tmp->l_timeStamp,tmp->r_timeStamp);
 			   rtn_var_struct(tmp->whichEnv, partialMatch, (int) sizeof(struct genericMatch*) * (tmp->bcount - 1), tmp);
 			   LeaveCriticalSection(&(MemoryData(tmp->whichEnv)->memoSection));
 			   

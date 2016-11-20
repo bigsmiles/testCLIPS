@@ -223,16 +223,16 @@ globle void UpdateBetaPMLinks(
    
    if (side == LHS)
      {
-	   /**/
+	   /**
       thePM->nextInMemory = theMemory->beta[betaLocation];
       if (theMemory->beta[betaLocation] != NULL)
         { theMemory->beta[betaLocation]->prevInMemory = thePM; }
       theMemory->beta[betaLocation] = thePM;
 	
-	  /**/
+	  **/
 	  
 #if SLIDING_WINDOW
-	   /**
+	   /**/
 	   if (theMemory->beta_last[betaLocation] != NULL)
 	   //if (theMemory->beta[betaLocation] != NULL)
 	   {
@@ -242,7 +242,7 @@ globle void UpdateBetaPMLinks(
 	   else{ theMemory->beta[betaLocation] = thePM; }
 
 	   theMemory->beta_last[betaLocation] = thePM; thePM->nextInMemory = NULL;
-	   **/
+	   /**/
 #endif
 	 
 	   /**

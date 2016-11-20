@@ -575,7 +575,7 @@ static void ProcessFactAlphaMatch(
   //add by xuchao
   //EnterCriticalSection(&g_move); //remove ok?
 #if SLIDING_WINDOW
-#if DROOLS_WINDOW  // 把系统时间赋值给fact时间戳
+#if !DROOLS_WINDOW  // 把系统时间赋值给fact时间戳
   LARGE_INTEGER cur_time;
   QueryPerformanceCounter(&cur_time);
   theFact->timestamp = cur_time.QuadPart;
@@ -650,24 +650,7 @@ static void ProcessFactAlphaMatch(
 	  tail = one;
   }
 #endif
-  //好像已经没用了？
-  //LeaveCriticalSection(&g_fact_join);
-  //move to assert(fact)
-  /*struct factNotOnJoinNode **p = &theFact->factNotOnNode;
-  *p = (struct factNotOnJoinNode*)malloc(sizeof(struct factNotOnJoinNode));
-  (*p)->join = NULL; (*p)->next = NULL;
-  struct factNotOnJoinNode *tail = *p;
-  for (listOfJoins = thePattern->header.entryJoin;
-	  listOfJoins != NULL;
-	  listOfJoins = listOfJoins->rightMatchNode)
-  {
-	  struct factNotOnJoinNode* one = (struct factNotOnJoinNode*)malloc(sizeof(struct factNotOnJoinNode));
-	  one->join = listOfJoins;
-	  one->next = NULL;
-	  tail->next = one;
-	  tail = tail->next;
-  }*/
-  //LeaveCriticalSection(&g_move);
+ 
 #endif
 
   for (listOfJoins = thePattern->header.entryJoin;
